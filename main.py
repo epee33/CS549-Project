@@ -16,12 +16,13 @@ def pad_to_16(data): #pad data to 16 bytes
         data = data + (b'\x00' * needed)
     return data[:16] #ensure data is exactly 16 bytes
 
-def split_blocks(message, size): #very basic block splitting function   
+def split_blocks(message, size): #block splitting function   
     blocks = []
-    start = 0
-    while start < len(message):
-        blocks.append(message[start:start+size])
-        start += size
+    i = 0
+    while i < len(message):
+        chunk = message[i : i + size]
+        blocks.append(chunk)
+        i = i + size
     return blocks
 
 def mac_compute(key, message, block_size=15): 
@@ -40,15 +41,16 @@ def mac_compute(key, message, block_size=15):
 
 def mac_verify(key, message, tag): #If the computed tag matches the provided tag then autentication is successful
     expected = mac_compute(key, message)
-    return expected == tag
+    yes = expected == tag
+    return yes
 
 if __name__ == "__main__": #mix and match attack 
     key = os.urandom(16)
 
-    message1 = b"I love cryptography"
+    message1 = b"CS549 homework is hard!"
     tag1 = mac_compute(key, message1)
 
-    message2 = b"CS549 is great!!!"
+    message2 = b"CS549 homework is easy!"
     tag2 = mac_compute(key, message2)
 
     print("Message 1:", message1)
