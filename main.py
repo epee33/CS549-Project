@@ -51,9 +51,8 @@ if __name__ == "__main__": #mix and match attack
     print("---- CS549 MAC Demo ----") #Simple UI as requested in assignment description
     print("1. Compute MAC for a message")
     print("2. Run mix-and-match attack example")
-    print("3. Exit")
 
-    answer = input("Select an option (1-3): ") #gets user input 
+    answer = input("Select an option (1 or 2): ") #gets user input 
 
     match answer:   #switch case
         case "1":
@@ -78,9 +77,6 @@ if __name__ == "__main__": #mix and match attack
             print("Forged Message:", forged_message)
             print("Forged Tag:", forged_tag.hex())
             print("Forgery successful?", mac_verify(key, forged_message, forged_tag))
-
-        case _:
-            print("Exited")
 
 
 
