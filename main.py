@@ -32,10 +32,10 @@ def mac_compute(key, message, block_size=15):
     tag_parts = []
 
     for i, block in enumerate(blocks): #build the PRF input 
-        prf_input = bytes([num_blocks, i]) + block 
-        prf_input = pad(prf_input) 
-        prf_output = prf(key, prf_input)  #apply prf
-        tag_parts.append(prf_output)
+        input = bytes([num_blocks, i]) + block 
+        input = pad(input) 
+        output = prf(key, input)  #apply prf
+        tag_parts.append(output)
 
     tag = b''.join(tag_parts) #combine the tags
     return tag
