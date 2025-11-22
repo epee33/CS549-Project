@@ -15,7 +15,7 @@ def pad(data): #pad data to 16 bytes
     required = 16 - len(data)
     if required > 0:
         data = data + (b'\x00' * required)
-    return data[:16] #ensure data is exactly 16 bytes
+    return data[:16] #ensure input is exactly 16 bytes
 
 def split_blocks(message, size): #block splitting function   
     blocks = []
@@ -31,7 +31,7 @@ def mac_compute(key, message, block_size=15):
     num_blocks = len(blocks)  # number of blocks
     tag_parts = []
 
-    for i, block in enumerate(blocks): #for each block we need to compute a tag using Fk(ℓ||i||mi)
+    for i, block in enumerate(blocks): #build the PRF input 
         prf_input = bytes([num_blocks, i]) + block 
         prf_input = pad(prf_input) 
         prf_output = prf(key, prf_input)  #apply prf
@@ -74,9 +74,9 @@ if __name__ == "__main__": #mix and match attack
             second_block = tag2[16:]
             forged_tag = first_block + second_block
 
-            print("Forged Message:", forged_message)
-            print("Forged Tag:", forged_tag.hex())
-            print("Forgery successful?", mac_verify(key, forged_message, forged_tag))
+            print("Forged message:", forged_message)
+            print("Forged tag:", forged_tag.hex())
+            print("Was the forgery successful?", mac_verify(key, forged_message, forged_tag))
 
 
 
